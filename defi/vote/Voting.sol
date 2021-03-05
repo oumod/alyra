@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.6.11;
+pragma experimental ABIEncoderV2;
+
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.0.0/contracts/access/Ownable.sol";
 
 /**
@@ -73,7 +75,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.0
     /**
      * @notice L'administrateur du vote commence la session d'enregistrement de la proposition.
      */
-    function startProposalsRegistration() public view onlyOwner {
+    function startProposalsRegistration() public  onlyOwner {
         require(workflowStatus == WorkflowStatus.RegisteringVoters, "La phase d'enregistrement des propositions ne peut être démarrée !");
         workflowStatus = WorkflowStatus.ProposalsRegistrationStarted;
         emit ProposalsRegistrationStarted();
@@ -105,7 +107,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.0
     /**
      * @notice  L'administrateur de vote met fin à la session d'enregistrement des propositions.
      */
-    function endProposalsRegistration() public view onlyOwner {
+    function endProposalsRegistration() public  onlyOwner {
         require(workflowStatus == WorkflowStatus.ProposalsRegistrationStarted, "La phase d'enregistrement des propositions n'est pas en cours !");
         workflowStatus = WorkflowStatus.ProposalsRegistrationEnded;
         emit ProposalsRegistrationEnded();
@@ -115,7 +117,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.0
     /**
      * @notice L'administrateur du vote commence la session de vote.
      */
-    function startVotingSession() public view onlyOwner {
+    function startVotingSession() public  onlyOwner {
         require(workflowStatus == WorkflowStatus.ProposalsRegistrationEnded, "La session de vote ne peut être démarrée !");
         workflowStatus = WorkflowStatus.VotingSessionStarted;
         emit VotingSessionStarted();
@@ -139,7 +141,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.0
     /**
      * @notice L'administrateur du vote met fin à la session de vote.
      */
-    function endVotingSession() public view onlyOwner {
+    function endVotingSession() public  onlyOwner {
         require(workflowStatus == WorkflowStatus.VotingSessionStarted, "La session de vote n'est pas en cours !");
         workflowStatus = WorkflowStatus.VotingSessionEnded;
         emit VotingSessionEnded();
