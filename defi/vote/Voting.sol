@@ -86,7 +86,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.0
      * @notice Permet de récupérer la liste des propositions.
      */
     function getProposal() public  view returns (Proposal[] memory){
-        require(workflowStatus == WorkflowStatus.ProposalsRegistrationStarted, "La phase d'enregistrement des propositions n'a pas commencé !");
+        require(workflowStatus != WorkflowStatus.RegisteringVoters, "La phase d'enregistrement des propositions n'a pas commencé !");
 
         return proposals;
 
