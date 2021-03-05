@@ -6,6 +6,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.0
 
 /**
  * @title Voting
+ * @author groupe 5 : yann, louisplessis, oudom
  * @notice Défi 1
  * @dev administrateur du vote = owner
  */
