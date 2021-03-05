@@ -101,6 +101,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.0
         uint voterId = whitelist[msg.sender] - 1;
         require(voters[voterId].hasProposed == false, "Vous avez déjà fait une proposition !");
         proposals.push(Proposal(_description, 0));
+        voters[voterId].hasProposed = true;
         emit ProposalRegistered(proposals.length);
     }
 
