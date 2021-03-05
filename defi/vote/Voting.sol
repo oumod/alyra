@@ -65,7 +65,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.0
     */
     function register(address _address) public onlyOwner {
         require(workflowStatus == WorkflowStatus.RegisteringVoters, "La phase d'enregistrement des électeurs est terminée !");
-        voters.push(Voter(true, false, 0));
+        voters.push(Voter(true, false, 0, false));
         whitelist[_address] = voters.length;
         emit VoterRegistered(_address); 
     }
@@ -73,11 +73,22 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.0
     /**
      * @notice L'administrateur du vote commence la session d'enregistrement de la proposition.
      */
-    function startProposalsRegistration() public onlyOwner {
+    function startProposalsRegistration() public view onlyOwner {
         require(workflowStatus == WorkflowStatus.RegisteringVoters, "La phase d'enregistrement des propositions ne peut être démarrée !");
         workflowStatus = WorkflowStatus.ProposalsRegistrationStarted;
         emit ProposalsRegistrationStarted();
         emit WorkflowStatusChange(WorkflowStatus.RegisteringVoters, WorkflowStatus.ProposalsRegistrationStarted);
+    }
+
+     /**
+     * @notice Permet de récupérer la liste des propositions.
+     */
+    function getProposal() public  view returns (Proposal[] memory){
+        require(workflowStatus == WorkflowStatus.ProposalsRegistrationStarted, "La phase d'enregistrement des propositions n'a pas commencé !");
+
+        return proposals;
+
+       
     }
 
     /**
@@ -85,6 +96,8 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.0
      */
     function registerProposal(string memory _description) public isWhitelisted {
         require(workflowStatus == WorkflowStatus.ProposalsRegistrationStarted, "La phase d'enregistrement des propositions n'est pas en cours !");
+        uint voterId = whitelist[msg.sender] - 1;
+        require(voters[voterId].hasProposed == false, "Vous avez déjà fait une proposition !");
         proposals.push(Proposal(_description, 0));
         emit ProposalRegistered(proposals.length);
     }
@@ -92,7 +105,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.0
     /**
      * @notice  L'administrateur de vote met fin à la session d'enregistrement des propositions.
      */
-    function endProposalsRegistration() public onlyOwner {
+    function endProposalsRegistration() public view onlyOwner {
         require(workflowStatus == WorkflowStatus.ProposalsRegistrationStarted, "La phase d'enregistrement des propositions n'est pas en cours !");
         workflowStatus = WorkflowStatus.ProposalsRegistrationEnded;
         emit ProposalsRegistrationEnded();
@@ -102,7 +115,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.0
     /**
      * @notice L'administrateur du vote commence la session de vote.
      */
-    function startVotingSession() public onlyOwner {
+    function startVotingSession() public view onlyOwner {
         require(workflowStatus == WorkflowStatus.ProposalsRegistrationEnded, "La session de vote ne peut être démarrée !");
         workflowStatus = WorkflowStatus.VotingSessionStarted;
         emit VotingSessionStarted();
@@ -126,7 +139,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.0
     /**
      * @notice L'administrateur du vote met fin à la session de vote.
      */
-    function endVotingSession() public onlyOwner {
+    function endVotingSession() public view onlyOwner {
         require(workflowStatus == WorkflowStatus.VotingSessionStarted, "La session de vote n'est pas en cours !");
         workflowStatus = WorkflowStatus.VotingSessionEnded;
         emit VotingSessionEnded();
