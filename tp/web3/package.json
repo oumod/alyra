@@ -1,0 +1,16 @@
+{
+  "name": "web3",
+  "version": "1.0.0",
+  "description": "Interaction avec un smart contract sur le réseau testnet ropsten",
+  "main": "SimpleStorage.js",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "web3": "^1.3.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node SimpleStorage.js && exit 1"
+  },
+  "author": "oumod",
+  "license": "MIT"
+}
