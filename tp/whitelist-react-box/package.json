@@ -1,0 +1,22 @@
+{
+  "name": "whitelist-react-box",
+  "version": "1.0.0",
+  "description": "Exemple d'utilisation de la box react pour implémenter une IHM gérant une liste d'autorisations via un Smart Contract",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^3.4.1",
+    "@openzeppelin/test-helpers": "^0.5.10",
+    "bootstrap": "^4.6.0",
+    "react-bootstrap": "^1.5.2",
+    "solidity-coverage": "^0.7.16"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}
